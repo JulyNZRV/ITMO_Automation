@@ -1,49 +1,35 @@
-#a: int = 5
-#b: str = 'строка'
-#с: list = [1, 2]
+#task_1
+def task_1() -> tuple[type, type, type, type, type]:
+     # Создаем переменные внутри функции
+        a: int = 42
+        b: float = 3.14
+        c: str = "строка"
+        d: list = [1, 2, 3, 4, 5, 'Я иду тебя искать']
+        e: bool = True
 
-#def indent(s: str, width: int) -> str:
-    #return " " * (max(0, width - len(s))) + s
+# Выводим типы данных каждой в консоль (внутри функции)
+        print(type(a), type(b), type(c), type(d), type(e))
+        return type(a),type(b), type(c),type(d),type(e)
 
+# Вызов функции
+task_1()
 
-#print(indent('134', 134))
-
-
-#Задача_1
-#создаем функцию
-def task_1(a: int, b: float,c: str, d: list, e: bool) -> None:
-    return a, b, c, d, e
-
-#Создаем 5 переменных с разными типами:
-a: int = 23
-b: float = 3.14
-c: str = "строка"
-d: list = [1, 2, 3, 4, 5, "Я иду тебя искать"]
-e: bool = True
-
-#Выводим типы данных каждой переменной:
-print(type(a), type(b), type(c), type(d), type(e))
-
-#вызов функции
-task_1(a, b, c, d, e)
 
 #Задача_2
-#создаем функцию
-def task_2(a) -> int:
-    return a
+def task_2() -> list[int]:
+     a = [1, 2, 3, 5, 8, 13, 21]
 
-a = [1, 2, 3, 5, 8, 13, 21]
-
-#Выводим в консоль первые3 значения списка:
-print(1, 2, 3)
+     # Выводим в консоль первые 3 значения списка внутри функции
+     print(a[:3])
+     return a[:3]
 
 #вызов функции
-task_2(a)
+task_2()
 
-#d.Последовательность данных называется СПИСОК
+#d.Последовательность данных называется числа Фибоначчи
 
 #Задача_3
-def task_3(a: int) -> int:
+def task_3(a: int) -> None:
     return a ** 2
 
 a: int = 3
