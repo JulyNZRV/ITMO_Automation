@@ -102,15 +102,15 @@ buttons_data = [
     'Dynamic Properties'
 ]
 
-# Создаем объекты для каждой кнопки
+#Cоздаем объекты для каждой кнопки
 sidebar_buttons = [SidebarButton(text) for text in buttons_data]
 
-# Выводим текст для каждой кнопки
+#Выводим текст для каждой кнопки
 print('Тексты кнопок:')
 for button in sidebar_buttons:
     print(f'- {button.text} ({button.type})')
 
 print('\nКлик:')
-# Вызываем метод click() для каждой кнопки
+#Вызываем метод click() для каждой кнопки
 for button in sidebar_buttons:
     print(button.click())

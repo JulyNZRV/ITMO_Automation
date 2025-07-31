@@ -5,7 +5,7 @@ def test_check_elements():
     driver = webdriver.Chrome()
     driver.get("https://www.saucedemo.com/")
 
-    username = driver.find_elements(By.ID, "user-name")  # возвращает список элементов
+    username = driver.find_elements(By.ID, "user-name")  #возвращает список элементов
     password = driver.find_elements(By.ID, "password")
     submit = driver.find_elements(By.ID, "login-button")
 

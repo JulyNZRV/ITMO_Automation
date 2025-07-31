@@ -71,9 +71,9 @@ def count_days(years, months):
     total_days = (years * 12 + months) * 29
     print(total_days)
 
-count_days(3, 3)  # 3 * 12 + 3 = 1131
-count_days(0, 5)  # 5 * 29 = 145
-count_days(5, 0)  # 5 * 12 * 29 = 1740
+count_days(3, 3)  #3 * 12 + 3 = 1131
+count_days(0, 5)  #5 * 29 = 145
+count_days(5, 0)  #5 * 12 * 29 = 1740
 
 
 
