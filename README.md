@@ -1,3 +1,3 @@
-TMO Automation Project
+ИTMO Automation Project
 
 Репозиторий для задач по автоматизированному тестированию на курсе ИТМО
