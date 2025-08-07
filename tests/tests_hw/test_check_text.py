@@ -1,18 +1,21 @@
-from selenium.webdriver.common.by import By
-from .components import WebText
+from pages.demoqa import DemoQa
+from pages.elements_page import ElementsPage
 
+def test_check_footer(browser):
+    demo_qa_page = DemoQa(browser)
+    demo_qa_page.visit()
+    assert demo_qa_page.text_footer.get_text() == '© 2013-2020 TOOLSQA.COM | ALL RIGHTS RESERVED.'
 
-def test_footer_text(browser):
-    browser.get("https://demoqa.com")
-    footer_component = WebText(browser, (By.CSS_SELECTOR, "footer span"))
-    assert footer_component.get_text() == "© 2013-2020 TOOLSQA.COM | ALL RIGHTS RESERVED."
+def test_check_text_please(browser):
+    demo_qa_page = DemoQa(browser)
+    el_page = ElementsPage(browser)
 
+    demo_qa_page.visit()
+    demo_qa_page.btn_elements.click()
+    assert el_page.text_please.get_text() == 'Please select an item from left to start practice.'
 
-def test_central_text(browser):
-    browser.get("https://demoqa.com")
+def test_page_elements(browser):
+    el_page = ElementsPage(browser)
 
-    elements_button = WebText(browser, (By.CSS_SELECTOR, ".card:nth-child(1)"))
-    elements_button.click()
-
-    central_text_component = WebText(browser, (By.CSS_SELECTOR, ".col-12.mt-4.col-md-6"))
-    assert central_text_component.get_text() == "Please select an item from left to start practice."
+    el_page.visit()
+    assert el_page.text_please.get_text() == 'Please select an item from left to start practice.'
