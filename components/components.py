@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 class WebElement:
     def __init__(self, driver, locator):
@@ -10,6 +11,9 @@ class WebElement:
         if not self.element:
             self.element = self.driver.find_element(By.CSS_SELECTOR, self.locator)
         return self.element
+
+    def find_elements(self):
+        return self.driver.find_elements(By.CSS_SELECTOR, self.locator)
 
     def click(self):
         self.find_element().click()
@@ -26,3 +30,11 @@ class WebElement:
 
     def visible(self):
         return self.find_element().is_displayed()
+
+    def check_count_elements(self, count: int) -> bool:
+        if len(self.find_elements()) == count:
+            return True
+        return False
+
+    def send_keys(self, text: str):
+        self.find_element().send_keys(text)
