@@ -29,3 +29,10 @@ class BasePage:
 
     def refresh(self):
         self.driver.refresh()
+
+    def set_window_size(self, width, height):
+        self.driver.set_window_size(width, height)
+
+    def get_title(self):
+        return self.driver.title
+

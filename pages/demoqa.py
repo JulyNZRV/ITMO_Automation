@@ -5,7 +5,7 @@ from components.components import WebElement
 class DemoQa(BasePage):
 
     def __init__(self, driver):
-        self.base_url = "https://demoqa.com"
+        self.base_url = "https://demoqa.com/"
         super().__init__(driver, self.base_url)
 
         self.icon = WebElement(driver, "#app > header > a")
