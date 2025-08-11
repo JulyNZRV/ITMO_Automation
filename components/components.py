@@ -63,6 +63,9 @@ class WebElement:
             self.find_element()
         )
 
+    def get_attribute(self, name: str):
+        return self.find_element().get_attribute(name)
+
     def get_by_type(self):
         if self.locator_type == 'id':
             return By.ID
