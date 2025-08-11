@@ -1,17 +1,29 @@
 import time
-from pages.modal_dialogs import ModalDialogsPage
+from pages.modal_dialogs import ModalDialogs
 from pages.demoqa import DemoQa
 
 
+import pytest
+from selenium import webdriver
+
+
+@pytest.fixture(scope="function")
+def browser():
+    driver = webdriver.Chrome()
+    driver.set_window_size(1000, 1000)
+    yield driver
+    driver.quit()
+
+
 def test_modal_elements(browser):
-    modal_page = ModalDialogsPage(browser)
+    modal_page = ModalDialogs(browser)
     modal_page.visit()
 
     assert len(modal_page.menu_buttons) == 5
 
 
 def test_navigation_modal(browser):
-    modal_page = ModalDialogsPage(browser)
+    modal_page = ModalDialogs(browser)
     main_page = DemoQa(browser)
 
     modal_page.visit()
