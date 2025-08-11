@@ -1,4 +1,3 @@
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from pages.base_page import BasePage
 from components.components import WebElement
@@ -6,7 +5,7 @@ from components.components import WebElement
 class DemoQa(BasePage):
 
     def __init__(self, driver):
-        self.base_url = "https://demoqa.com/"
+        self.base_url = "https://demoqa.com"
         super().__init__(driver, self.base_url)
 
         self.icon = WebElement(driver, "#app > header > a")
@@ -19,3 +18,5 @@ class DemoQa(BasePage):
         except NoSuchElementException:
             return False
         return True
+
+

@@ -1,3 +1,5 @@
+
+
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
@@ -38,3 +40,17 @@ class WebElement:
 
     def send_keys(self, text: str):
         self.find_element().send_keys(text)
+
+
+class WebElements:
+    def __init__(self, driver, locator):
+        self.driver = driver
+        self.locator = locator
+        self.elements = driver.find_elements(By.CSS_SELECTOR, locator)
+
+    def __len__(self):
+        return len(self.elements)
+
+    def click_first(self):
+        if self.elements:
+            self.elements[0].click()
