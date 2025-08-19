@@ -1,103 +1,90 @@
+#
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class WebElement:
-    def __init__(self, driver, locator, locator_type='css'):
+    def __init__(self, driver, locator):
         self.driver = driver
-        self.locator = locator
-        self.element = None
-        self.locator_type = locator_type
+        self.locator = locator  # CSS
+
+    def _by(self):
+        return (By.CSS_SELECTOR, self.locator)
 
     def find_element(self):
-        if not self.element:
-            self.element = self.driver.find_element(self.get_by_type(), self.locator)
-        return self.element
+        # Всегда ищем заново — не кешируем, иначе будут stale-element
+        return self.driver.find_element(*self._by())
 
     def find_elements(self):
-        return self.driver.find_elements(self.get_by_type(), self.locator)
+        return self.driver.find_elements(*self._by())
 
-    def click(self):
-        self.find_element().click()
-
-    def click_force(self):
-        self.driver.execute_script("arguments[0].click();", self.find_element())
+    def click(self, timeout: int = 5):
+        wait = WebDriverWait(self.driver, timeout)
+        try:
+            el = wait.until(EC.element_to_be_clickable(self._by()))
+            el.click()
+        except StaleElementReferenceException:
+            # повторная попытка, если DOM успел перерисоваться
+            el = wait.until(EC.element_to_be_clickable(self._by()))
+            el.click()
 
     def get_text(self):
-        return str(self.find_element().text)
-
-    def exist(self):
         try:
-            self.find_element()
+            return str(self.find_element().text)
+        except StaleElementReferenceException:
+            return str(self.find_element().text)
+
+    def exist(self, timeout: int = 0) -> bool:
+        # presence в DOM (не обязательно видим)
+        if timeout:
+            try:
+                WebDriverWait(self.driver, timeout).until(
+                    EC.presence_of_element_located(self._by())
+                )
+                return True
+            except TimeoutException:
+                return False
+        try:
+            self.driver.find_element(*self._by())
             return True
         except NoSuchElementException:
             return False
 
-    def visible(self):
-        return self.find_element().is_displayed()
+    def visible(self, timeout: int = 0) -> bool:
+        # видимость элемента
+        if timeout:
+            try:
+                WebDriverWait(self.driver, timeout).until(
+                    EC.visibility_of_element_located(self._by())
+                )
+                return True
+            except TimeoutException:
+                return False
+        try:
+            return self.find_element().is_displayed()
+        except (NoSuchElementException, StaleElementReferenceException):
+            return False
 
     def check_count_elements(self, count: int) -> bool:
-        if len(self.find_elements()) == count:
-            return True
-        return False
+        return len(self.find_elements()) == count
 
     def send_keys(self, text: str):
-        self.find_element().send_keys(text)
+        el = self.find_element()
+        try:
+            el.clear()
+        except Exception:
+            pass
+        el.send_keys(text)
 
     def clear(self):
-        self.send_keys(Keys.CONTROL + 'a')
-        self.send_keys(Keys.DELETE)
+        try:
+            self.find_element().clear()
+        except StaleElementReferenceException:
+            self.find_element().clear()
 
-    def get_dom_attribute(self,name: str):
-        value = self.find_element().get_attribute(name)
-
-        if value is None:
-            return False
-        if len(value) > 0:
-            return value
-        return True
-
-    def scroll_to_element(self):
-        self.driver.execute_script(
-            "window.scrollTo(0, document.body.scrollHeight);",
-            self.find_element()
-        )
-
-    def get_attribute(self, name: str):
-        return self.find_element().get_attribute(name)
-
-    def get_by_type(self):
-        if self.locator_type == 'id':
-            return By.ID
-        elif self.locator_type == 'name':
-            return By.NAME
-        elif self.locator_type == 'xpath':
-            return By.XPATH
-        elif self.locator_type == 'css':
-            return By.CSS_SELECTOR
-        elif self.locator_type == 'class':
-            return By.CLASS_NAME
-        elif self.locator_type == 'Link':
-            return By.LINK_TEXT
-        else:
-            print('Locator_type' + self.locator_type + 'not correct')
-        return False
-
-
-    def check_css(self, style, value=''):
-        return self.find_element().value_of_css_property(style) == value
-
-
-class WebElements:
-    def __init__(self, driver, locator):
-        self.driver = driver
-        self.locator = locator
-        self.elements = driver.find_elements(By.CSS_SELECTOR, locator)
-
-    def __len__(self):
-        return len(self.elements)
-
-    def click_first(self):
-        if self.elements:
-            self.elements[0].click()
+    def value(self):
+        # удобно для <input> — получить текущее значение
+        return self.find_element().get_attribute("value")
 
