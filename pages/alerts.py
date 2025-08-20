@@ -13,9 +13,5 @@ class Alerts(BasePage):
         self.promptButton = WebElement(driver, "#promtButton")
         self.promptResult = WebElement(driver, "#promptResult")
 
+        self.timer_btn = WebElement(driver, "#timerAlertButton")
 
-    # def alert(self):
-    #     try:
-    #         return self.driver.switch_to.alert
-    #     except:
-    #         return None

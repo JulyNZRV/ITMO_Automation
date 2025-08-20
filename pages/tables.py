@@ -8,6 +8,9 @@ class Tables(BasePage):
         self.base_url = "https://demoqa.com/webtables"
         super().__init__(driver, self.base_url)
 
+        #заголовки столбца страницы
+        self.headers = WebElement(driver, ".rt-th")
+
         # кнопки
         self.btn_add = WebElement(driver, "#addNewRecordButton")
         self.btn_submit = WebElement(driver, "#submit")
@@ -68,6 +71,8 @@ class Tables(BasePage):
         self.salary.send_keys(new_data["salary"])
         self.department.find_element().clear()
         self.department.send_keys(new_data["department"])
+
+
 
         self.btn_submit.click()
 
