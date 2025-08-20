@@ -1,14 +1,14 @@
 from pages.links_page import  Links
 
 def test_home_link(browser):
-    page = Links(browser)
-    page.visit()
+    page_links = Links(browser)
+    page_links.visit()
 
-    assert page.link_home.get_text() == "Home"
-    assert page.link_home.get_dom_attribute("href") == "https://demoqa.com/"
+    assert page_links.link_home.get_text() == "Home"
+    assert page_links.link_home.get_dom_attribute("href") == "https://demoqa.com/"
 
     main_window = browser.current_window_handle
-    page.link_home.click()
+    page_links.link_home.click()
 
     handles = browser.window_handles
     assert len(handles) > 1

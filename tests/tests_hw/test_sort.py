@@ -1,10 +1,10 @@
 from pages.tables import Tables
 
 def test_sort_columns(browser):
-    page = Tables(browser)
-    page.visit()
+    tables = Tables(browser)
+    tables.visit()
 
-    headers = page.headers.find_elements()
+    headers = tables.headers.find_elements()
     assert len(headers) > 0
 
     for header in headers:
