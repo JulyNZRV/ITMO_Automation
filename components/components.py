@@ -88,3 +88,5 @@ class WebElement:
         # удобно для <input> — получить текущее значение
         return self.find_element().get_attribute("value")
 
+    def get_dom_attribute(self, name):
+        return self.find_element().get_attribute(name)

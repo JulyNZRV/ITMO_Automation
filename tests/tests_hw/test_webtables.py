@@ -1,8 +1,7 @@
 import time
 from pages.tables import Tables
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 
 
 def test_tables(browser):
@@ -24,12 +23,10 @@ def test_tables(browser):
 
 
 def test_webtables_crud(browser):
-    """Проверка CRUD операций в таблице"""
     page = Tables(browser)
     page.visit()
-    wait = WebDriverWait(browser, 5)
+    time.sleep(3)
 
-    # --- CREATE ---
     data = {
         "first_name": "Ivan",
         "last_name": "Petrov",
@@ -39,13 +36,10 @@ def test_webtables_crud(browser):
         "department": "QA",
     }
     page.add_record(data)
-
-    # ждём, пока модалка закроется
-    wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-content")))
-
+    time.sleep(3)
     assert page.record_exists("Ivan")
 
-    # --- UPDATE ---
+    # UPDATE
     new_data = {
         "first_name": "Sergey",
         "last_name": "Ivanov",
@@ -55,11 +49,10 @@ def test_webtables_crud(browser):
         "department": "Dev",
     }
     page.edit_record("Ivan", new_data)
-    wait.until(EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-content")))
-
+    time.sleep(3)
     assert page.record_exists("Sergey")
 
-    # --- DELETE ---
+    #DELETE
     page.delete_record("Sergey")
     time.sleep(1)
     assert not page.record_exists("Sergey")

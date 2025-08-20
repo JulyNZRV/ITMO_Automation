@@ -1,16 +1,6 @@
 import time
 from pages.form_page import FormPage
 
-import pytest
-from selenium import webdriver
-
-
-@pytest.fixture(scope="function")
-def browser():
-    driver = webdriver.Chrome()
-    driver.set_window_size(1000, 1000)
-    yield driver
-    driver.quit()
 
 def test_login_form(browser):
     form_page = FormPage(browser)
@@ -31,3 +21,15 @@ def test_login_form(browser):
 
     assert form_page.modal_dialog.exist()
     form_page.btn_close_modal.click_force()
+
+
+def test_state(browser):
+    form_page = FormPage(browser)
+
+    form_page.visit()
+    time.sleep(2)
+    form_page.btn_state.scroll_to_element()
+    form_page.btn_state.click()
+    form_page.btn_NCR.click()
+    time.sleep(2)
+
