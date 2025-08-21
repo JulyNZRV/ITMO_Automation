@@ -90,3 +90,6 @@ class WebElement:
 
     def get_dom_attribute(self, name):
         return self.find_element().get_attribute(name)
+
+    def click_force(self):
+        self.driver.execute_script("arguments[0].click();", self.find_element())
